@@ -1,38 +1,96 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+  background-image: linear-gradient(
+    83.2deg,
+    rgb(150, 93, 233) 10.8%,
+    rgb(99, 88, 238) 94.3%
+  );
+  height: 100vh;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+}
+.App .container{
+  width: 30%;
+    background-color: white;
+    height: 90vh;
+    border-radius: 10px;
+    border: 2px solid gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.App .container .content{
+  width: 90%;
+  height: 90%;
+}
+.App .container .content .form-input{
+ 
+    position: relative;
+}
+.App .container .content .form-input .lable-input{
+  position: absolute;
+  left: 21px;
+    top: 14px;
+    user-select: none;
+    color: #999;
+    pointer-events: none;
 }
 
-.App-link {
-  color: #61dafb;
-}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App .container .content .form-input  input{
+  border: 1px solid  #eee;
+  border-radius: 4px;
+  width: 50%;
+    height: 6vh;
+  padding: 0 20px;
+  transition: 1s ease;
+}
+.App .container .content .form-input  input:focus{
+  border: 1px solid #6a5af9  ;
+}
+.App .container .content .form-input  input:not(:placeholder-shown)+ .lable-input,
+.App .container .content .form-input  input:focus + .lable-input{
+  top: -8px;
+  background-color: white;
+  padding:0 10px;
+  color: #6a5af9;
+  display: inline-block;
+  font-size: 2vh;
+  font-weight: 600;
+  transition: 0.5s ease;
+  left: 1.4vh;
+}
+.App .container .content .form-input .btn-get{
+  padding: 2vh;
+    margin-left: 2vh;
+    background-color: #6a5af9;
+    border: none;
+    border-radius: 10px;
+    color: whitesmoke;
+    opacity: 0.9;
+    font-weight: 600;
+}
+.App .container .content .form-input .btn-get:hover{
+  opacity: 1;
+}
+.App .container .content .form-input .btn-get:active{
+  background-color: #1900ff;
+}
+.App .container .content .UserDetailInfor{
+  text-align: center;
+    margin-top: 6vh;
+    color: #6a5af9;
+}
+.App .container .content .avatar{
+  width: 100%;
+  height: 42vh;
+}
+.App .container .content img{
+  width: 100%;
+  height: 42vh;
+  border-radius: 20px;
 }
