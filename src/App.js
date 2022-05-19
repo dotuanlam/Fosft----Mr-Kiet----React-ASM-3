@@ -1,64 +1,87 @@
-import React, { useState } from "react";
-import "./App.css";
+import React, { useEffect, useState } from "react";
+import ShowInformationDetail from "./components/InformationDetail";
+import GetInputName from "./components/GetInputName";
+import "./CSS/App.scss";
+import Mounting from "./components/Mounting";
+import Loading from "./components/Loading";
 
 function App() {
-  const [inputName, setInputName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [infor, setInfor] = useState({
-    Role: "",
-    Company: "",
-    Email: "",
-    NumberOfFollowers: 0,
-    Avatar: null,
+    role: "",
+    company: "",
+    email: "",
+    followers: "",
+    avatar: "",
   });
 
   const getData = (name) => {
+    setLoading(true);
     return fetch(`https://api.github.com/users/${name}`);
   };
 
-  const onGettingData = () => {
-    getData(inputName)
+  const onGetData = (name) => {
+    getData(name)
       .then((res) => res.json())
       .then((res) => {
-        const avatarUser = res.avatar_url;
-        const role = res.type;
-        const company = res.company;
-        const email = res.email;
-        const followers = res.followers;
+        const avatar = res?.avatar_url;
+        const role = res?.type;
+        const company = res?.company;
+        const email = res?.email;
+        const followers = res?.followers;
+        setLoading(false);
         setInfor({
-          Role: role,
-          Company: company,
-          Email: email,
-          NumberOfFolowers: followers,
-          Avatar: avatarUser,
+          role: role,
+          company: company,
+          email: email,
+          folowers: followers,
+          avatar: avatar,
         });
-      });
+        setLoading(false);
+      })
+      .catch((Error) => console.log("Error 404"));
   };
+
+  useEffect(()=>{
+     const autoReload =  setInterval(() => {
+      getData('name')
+      .then((res) => res.json())
+      .then((res) => {
+        const avatar = res?.avatar_url;
+        const role = res?.type;
+        const company = res?.company;
+        const email = res?.email;
+        const followers = res?.followers;
+        setLoading(false);
+        setInfor({
+          role: role,
+          company: company,
+          email: email,
+          folowers: followers,
+          avatar: avatar,
+        });
+        setLoading(false);
+      })
+      .catch((Error) => console.log("Error 404"));
+    }, 5000);
+    return()=>{
+      clearInterval(autoReload)
+    }
+  },[infor])
+
+
   return (
     <div className="App">
       <div className="container">
         <div className="content">
-          <div className="form-input">
-            <input
-              onChange={(e) => setInputName(e.target.value)}
-              placeholder=" "
-            />
-            <label className="lable-input">Name</label>
-            <button className="btn-get" onClick={onGettingData}>
-              Get
-            </button>
-          </div>
-          <div className="UserDetailInfor">
-            <h1>User Detail Information</h1>
-          </div>
-          <div className="avatar">
-            <img alt="avatar" src={infor.Avatar}></img>
-          </div>
-          <h3>Role: {infor.Role === "null" ? "Updating" : infor.Role}</h3>
-          <h3>Email: {infor.Email === null ? "Updating" : infor.Email}</h3>
-          <h3>Number Of Follower: {infor.NumberOfFolowers}</h3>
-          <h3>
-            Company: {infor.Company === null ? "Updating" : infor.Company}
-          </h3>
+          {<GetInputName onGetData={onGetData} />}
+          {infor.avatar === "" ? (
+            <Mounting />
+          ) : loading ? (
+            <Loading />
+          ) : (
+            <ShowInformationDetail infor={infor} />
+          )}
         </div>
       </div>
     </div>
